@@ -60,7 +60,17 @@ void computeTTCCamera(std::vector<cv::KeyPoint> &kptsPrev, std::vector<cv::KeyPo
     double dT = 1 / frameRate;
     TTC = -dT / (1 - meanDistRatio);
 
-    // TODO: STUDENT TASK (replacement for meanDistRatio)
+    // STUDENT TASK (replacement for meanDistRatio)
+    std::sort(distRatios.begin(), distRatios.end());
+
+    size_t medIndex = distRatios.size() / 2;
+    double medDistRatio = (distRatios.size() % 2 == 0)
+                          ? (distRatios[medIndex - 1] + distRatios[medIndex]) / 2.0
+                          : distRatios[medIndex];
+
+    dT = 1.0 / frameRate; // Ensure floating-point division
+    TTC = -dT / (1 - medDistRatio);
+
 }
 
 int main()
